@@ -621,6 +621,37 @@ body {
     transform: translateY(0);
 }
 
+
+/* Header logo as image + text fallback */
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+}
+
+.logo-img {
+    height: 44px;           /* tweak to taste */
+    width: auto;
+    display: block;
+    border-radius: 6px;      /* optional, remove if you want sharp edges */
+}
+
+.logo-text {
+    font-size: 1.2rem;
+    font-weight: 700;
+    background: linear-gradient(45deg, #fff, #f0f8ff);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+/* On smaller screens, keep just the icon for tighter header */
+@media (max-width: 768px) {
+    .logo-text { display: none; }
+    .logo-img  { height: 40px; }
+}
+
+
 /* Responsive Design - Enhanced */
 @media (max-width: 768px) {
     .nav-links {
