@@ -233,3 +233,89 @@ document.addEventListener('DOMContentLoaded', function() {
     addSearchFunctionality();
     console.log('ANS Hirings website loaded successfully!');
 });
+
+
+
+// ===== Contact Form -> Google Sheets + Email (via Apps Script) =====
+const GAS_WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbxHNwNF_EfytFfOZku0gkZW0m-_dLMiBa8K-tzVsR8k12GgfjgwRkdb3BwIrKsUqUSBLg/exec'; // <-- replace
+
+(function initContactForm() {
+  const form = document.getElementById('contactForm');
+  if (!form) return;
+
+  const status = document.getElementById('formStatus');
+  const submitBtn = document.getElementById('submitBtn');
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    // honeypot: block bots
+    const hp = form.querySelector('#company');
+    if (hp && hp.value.trim() !== '') {
+      return; // silently ignore
+    }
+
+    // basic validation
+    const name = form.name.value.trim();
+    const email = form.email.value.trim();
+    const subject = form.subject.value.trim();
+    const message = form.message.value.trim();
+    const phone = form.phone.value.trim();
+
+    if (!name || !email || !subject || !message) {
+      setStatus('Please fill all required fields.', 'error');
+      return;
+    }
+
+    setLoading(true);
+    setStatus('Sending...', null);
+
+    try {
+      const payload = {
+        name, email, phone, subject, message,
+        sourcePage: window.location.href
+      };
+
+      const res = await fetch(GAS_WEB_APP_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      });
+
+      // Apps Script returns JSON; handle no-cors fallback if needed
+      let ok = false;
+      try {
+        const data = await res.json();
+        ok = data && data.ok;
+      } catch (_) {
+        // If JSON parse fails but request succeeded (some hosts), still treat as ok
+        ok = res.ok;
+      }
+
+      if (ok) {
+        setStatus('Thank you! Your message has been sent.', 'success');
+        form.reset();
+      } else {
+        throw new Error('Submission failed');
+      }
+    } catch (err) {
+      setStatus('Sorry, something went wrong. Please try again later.', 'error');
+      console.error(err);
+    } finally {
+      setLoading(false);
+    }
+  });
+
+  function setLoading(isLoading) {
+    if (!submitBtn) return;
+    submitBtn.disabled = isLoading;
+    submitBtn.textContent = isLoading ? 'Sending…' : 'Send Message';
+  }
+
+  function setStatus(msg, type) {
+    if (!status) return;
+    status.textContent = msg || '';
+    status.classList.remove('success', 'error');
+    if (type) status.classList.add(type);
+  }
+})();

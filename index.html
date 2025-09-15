@@ -222,7 +222,7 @@
     </section>
 
     <!-- Contact Section -->
-    <section id="contact" class="section contact">
+    <!-- <section id="contact" class="section contact">
         <div class="container">
             <h2 class="section-title">Ready to Transform Your Career?</h2>
             <div class="contact-content">
@@ -299,7 +299,34 @@
                 </form>
             </div>
         </div>
-    </section>
+    </section> -->
+
+<!-- Contact Section -->
+<section id="contact" class="section">
+  <h2>Contact Us</h2>
+  <form id="contactForm" novalidate>
+    <!-- Honeypot (hidden) -->
+    <input type="text" name="company" id="company" autocomplete="off" style="position:absolute;left:-9999px;opacity:0;" tabindex="-1">
+
+    <div class="form-row">
+      <input type="text" name="name" id="name" placeholder="Your Name" required>
+      <input type="email" name="email" id="email" placeholder="Your Email" required>
+    </div>
+
+    <div class="form-row">
+      <input type="tel" name="phone" id="phone" placeholder="Your Phone">
+      <input type="text" name="subject" id="subject" placeholder="Subject" required>
+    </div>
+
+    <textarea name="message" id="message" placeholder="Your Message" required></textarea>
+
+    <button type="submit" id="submitBtn">Send Message</button>
+
+    <p id="formStatus" class="form-status" aria-live="polite"></p>
+  </form>
+</section>
+
+
 
     <!-- Footer -->
     <footer class="footer">

@@ -707,3 +707,12 @@ body {
         text-align: center;
     }
 }
+
+
+
+.form-status {
+  margin-top: 10px;
+  font-size: 0.95rem;
+}
+.form-status.success { color: #38b000; }
+.form-status.error { color: #ff4d4f; }
