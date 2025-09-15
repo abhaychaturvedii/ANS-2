@@ -716,3 +716,89 @@ body {
 }
 .form-status.success { color: #38b000; }
 .form-status.error { color: #ff4d4f; }
+
+
+/* --- Contact form layout & states --- */
+.contact .form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem 1.25rem;
+}
+
+.contact .field { display: flex; flex-direction: column; }
+.contact .field.full { grid-column: 1 / -1; }
+
+/* Contact form labels */
+.contact label {
+  margin: 0 0 0.4rem;
+  font-weight: 600;
+  font-size: 0.95rem;
+  color: #e5e7eb;       /* light gray for dark background */
+  display: block;
+}
+
+
+/* .contact label {
+  margin: .25rem 0 .35rem;
+  font-weight: 600;
+  color: #1f2937;
+} */
+
+.contact input,
+.contact textarea {
+  padding: 0.9rem 1rem;
+  border: 1.5px solid #374151;  /* darker border for contrast */
+  border-radius: 12px;
+  background: #111827;          /* deep gray background */
+  color: #f9fafb;               /* light text */
+}
+
+.contact input::placeholder,
+.contact textarea::placeholder {
+  color: #9ca3af;   /* softer placeholder */
+}
+
+
+/* .contact input,
+.contact textarea {
+  padding: .9rem 1rem;
+  border: 1.5px solid #e5e7eb;
+  border-radius: 12px;
+  background: #fff;
+  color: #111827;
+  outline: none;
+  transition: border .2s, box-shadow .2s;
+} */
+
+.contact input:focus,
+.contact textarea:focus {
+  border-color: #667eea;
+  box-shadow: 0 0 0 3px rgba(102,126,234,.15);
+}
+
+.contact .error { color: #ef4444; font-size: .85rem; min-height: 1.2rem; }
+.contact .hint  { color: #6b7280; font-size: .82rem; margin-top: .25rem; }
+
+.contact input.invalid, .contact textarea.invalid { border-color: #ef4444; }
+.contact input.valid,   .contact textarea.valid   { border-color: #10b981; }
+
+/* Hide honeypot */
+.contact .hp { position: absolute; left: -10000px; top: auto; width: 1px; height: 1px; overflow: hidden; }
+
+.actions { grid-column: 1 / -1; display: flex; gap: 1rem; align-items: center; }
+
+.btn-primary {
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  border: none;
+  color: #fff;
+  padding: .9rem 1.5rem;
+  border-radius: 999px;
+  font-weight: 600;
+  cursor: pointer;
+}
+.btn-primary:disabled { opacity: .6; cursor: not-allowed; }
+
+/* Responsive */
+@media (max-width: 768px) {
+  .contact .form-grid { grid-template-columns: 1fr; }
+}

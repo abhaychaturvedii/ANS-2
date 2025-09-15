@@ -236,54 +236,110 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
 // ===== Contact Form -> Google Sheets + Email (via Apps Script) =====
-const GAS_WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbx_10KSWvl7jvX8-ENpeXebGXYvBcF6HLSrs-5squpDAm5vJ05Z9GCWZfY3Lftwft4eUg/exec';
+// ===== Contact Form -> Google Sheets + Email (via Apps Script) =====
+const GAS_WEB_APP_URL =
+  'https://script.google.com/macros/s/AKfycbx_10KSWvl7jvX8-ENpeXebGXYvBcF6HLSrs-5squpDAm5vJ05Z9GCWZfY3Lftwft4eUg/exec';
 
 (function initContactForm() {
   const form = document.getElementById('contactForm');
   if (!form) return;
 
-  const status = document.getElementById('formStatus');
+  const statusEl  = document.getElementById('formStatus');
   const submitBtn = document.getElementById('submitBtn');
 
+  // --- helpers ---
+  const $  = (id) => document.getElementById(id);
+  const err = (id) => form.querySelector(`.error[data-for="${id}"]`);
+
+  const emailOk  = (v) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v);
+  const phoneOk  = (v) => {
+    const digits = (v || '').replace(/\D/g, '');
+    return digits.length >= 10 && digits.length <= 15;
+  };
+
+  function setFieldState(input, valid, msg = '') {
+    input.classList.toggle('invalid', !valid);
+    input.classList.toggle('valid',   valid);
+    const e = err(input.id);
+    if (e) e.textContent = msg;
+  }
+
+  // live validation
+  ['name','email','phone','subject','message'].forEach(id => {
+    const el = $(id);
+    if (!el) return;
+    el.addEventListener('input', () => {
+      const v = el.value.trim();
+      if (id === 'email')  setFieldState(el, emailOk(v),  emailOk(v)  ? '' : 'Enter a valid email.');
+      else if (id === 'phone') setFieldState(el, phoneOk(v), phoneOk(v) ? '' : 'Enter 10–15 digits.');
+      else setFieldState(el, v.length >= 2);
+    });
+  });
+
+  // submit
   form.addEventListener('submit', async (e) => {
     e.preventDefault();
 
-    // Honeypot (hidden field) to deter bots
+    // honeypot
     const hp = form.querySelector('#company');
     if (hp && hp.value.trim() !== '') return;
 
-    // Collect & validate
-    const name = form.name.value.trim();
-    const email = form.email.value.trim();
+    const name    = form.name.value.trim();
+    const email   = form.email.value.trim();
+    const phone   = form.phone.value.trim();
     const subject = form.subject.value.trim();
     const message = form.message.value.trim();
-    const phone = form.phone.value.trim();
 
-    if (!name || !email || !subject || !message) {
-      setStatus('Please fill all required fields.', 'error');
-      return;
+    // gate keepers
+    const checks = [
+      [ $('name'),    name.length >= 2,     'Please enter your name.' ],
+      [ $('email'),   emailOk(email),       'Enter a valid email.' ],
+      [ $('phone'),   phoneOk(phone),       'Enter 10–15 digits.' ],
+      [ $('subject'), subject.length >= 2,  'Please add a subject.' ],
+      [ $('message'), message.length >= 2,  'Please write a message.' ],
+    ];
+
+    let firstInvalid = null;
+    for (const [el, ok, msg] of checks) {
+      setFieldState(el, ok, ok ? '' : msg);
+      if (!ok && !firstInvalid) firstInvalid = el;
     }
+    if (firstInvalid) { firstInvalid.focus(); return; }
 
     setLoading(true);
-    setStatus('Sending...', null);
+    setStatus('Sending…', null);
 
     try {
-      const payload = {
-        name, email, phone, subject, message,
-        sourcePage: window.location.href
-      };
+      const payload = { name, email, phone, subject, message, sourcePage: location.href };
 
-      // IMPORTANT: text/plain avoids CORS preflight; we won't parse the response.
-      await fetch(GAS_WEB_APP_URL, {
+      const res = await fetch(GAS_WEB_APP_URL, {
         method: 'POST',
-        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-        body: JSON.stringify(payload)
+        headers: { 'Content-Type': 'application/json' },  // works with your deployment
+        body: JSON.stringify(payload),
       });
 
-      setStatus('Thank you! Your message has been sent.', 'success');
-      form.reset();
+      // Try text -> JSON parse (covers hosts that return text)
+      let ok = false, data = null;
+      try {
+        const txt = await res.text();
+        console.log('GAS response:', txt);
+        data = JSON.parse(txt);
+        ok = !!(data && data.ok);
+      } catch {
+        ok = res.ok;
+      }
+
+      if (ok) {
+        setStatus('Thank you! Your message has been sent.', 'success');
+        form.reset();
+        ['name','email','phone','subject','message'].forEach(id => {
+          const el = $(id); el.classList.remove('valid','invalid'); err(id).textContent = '';
+        });
+      } else {
+        setStatus(data?.error || 'Submission failed. Please try again.', 'error');
+      }
     } catch (err) {
-      console.error('Submit error:', err);
+      console.error(err);
       setStatus('Sorry, something went wrong. Please try again later.', 'error');
     } finally {
       setLoading(false);
@@ -295,11 +351,10 @@ const GAS_WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbx_10KSWvl7jvX8
     submitBtn.disabled = isLoading;
     submitBtn.textContent = isLoading ? 'Sending…' : 'Send Message';
   }
-
   function setStatus(msg, type) {
-    if (!status) return;
-    status.textContent = msg || '';
-    status.classList.remove('success', 'error');
-    if (type) status.classList.add(type);
+    if (!statusEl) return;
+    statusEl.textContent = msg || '';
+    statusEl.classList.remove('success','error');
+    if (type) statusEl.classList.add(type);
   }
 })();

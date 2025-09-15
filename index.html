@@ -302,29 +302,65 @@
     </section> -->
 
 <!-- Contact Section -->
-<section id="contact" class="section">
-  <h2>Contact Us</h2>
-  <form id="contactForm" novalidate>
-    <!-- Honeypot (hidden) -->
-    <input type="text" name="company" id="company" autocomplete="off" style="position:absolute;left:-9999px;opacity:0;" tabindex="-1">
+<section id="contact" class="section contact">
+  <div class="container">
+    <h2 class="section-title">Get in Touch</h2>
 
-    <div class="form-row">
-      <input type="text" name="name" id="name" placeholder="Your Name" required>
-      <input type="email" name="email" id="email" placeholder="Your Email" required>
-    </div>
+    <form id="contactForm" novalidate>
+      <div class="form-grid">
+        <div class="field">
+          <label for="name">Full Name *</label>
+          <input id="name" name="name" type="text" autocomplete="name" minlength="2" required />
+          <small class="error" data-for="name"></small>
+        </div>
 
-    <div class="form-row">
-      <input type="tel" name="phone" id="phone" placeholder="Your Phone">
-      <input type="text" name="subject" id="subject" placeholder="Subject" required>
-    </div>
+        <div class="field">
+          <label for="email">Email Address *</label>
+          <input id="email" name="email" type="email" inputmode="email" autocomplete="email" required />
+          <small class="error" data-for="email"></small>
+        </div>
 
-    <textarea name="message" id="message" placeholder="Your Message" required></textarea>
+        <div class="field">
+          <label for="phone">Phone Number *</label>
+          <input
+            id="phone"
+            name="phone"
+            type="tel"
+            inputmode="tel"
+            placeholder="+91 XXXXX XXXXX"
+            pattern="[0-9+\-\s()]{10,14}"
+            maxlength="20"
+            aria-describedby="phoneHelp"
+            required
+          />
+          <small id="phoneHelp" class="hint"></small>
+          <small class="error" data-for="phone"></small>
+        </div>
 
-    <button type="submit" id="submitBtn">Send Message</button>
+        <div class="field">
+          <label for="subject">Subject *</label>
+          <input id="subject" name="subject" type="text" minlength="2" required />
+          <small class="error" data-for="subject"></small>
+        </div>
 
-    <p id="formStatus" class="form-status" aria-live="polite"></p>
-  </form>
+        <div class="field full">
+          <label for="message">Message *</label>
+          <textarea id="message" name="message" rows="5" required></textarea>
+          <small class="error" data-for="message"></small>
+        </div>
+
+        <!-- Honeypot (hidden) to block bots -->
+        <input id="company" name="company" type="text" class="hp" autocomplete="off" tabindex="-1" />
+
+        <div class="actions">
+          <button id="submitBtn" type="submit" class="btn-primary">Send Message</button>
+          <span id="formStatus" class="form-status" role="status" aria-live="polite"></span>
+        </div>
+      </div>
+    </form>
+  </div>
 </section>
+
 
 
 
