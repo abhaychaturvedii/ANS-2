@@ -237,7 +237,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
 // ===== Contact Form -> Google Sheets + Email (via Apps Script) =====
-const GAS_WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbxdD7-30I_rY3b7zUasUQMej0e_tlzffunEyrnfqgkhzeUf-BptxxaynuiSbp5EdVpbhw/exec'; // <-- replace
+const GAS_WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbx_10KSWvl7jvX8-ENpeXebGXYvBcF6HLSrs-5squpDAm5vJ05Z9GCWZfY3Lftwft4eUg/exec'; // <-- replace
 
 (function initContactForm() {
   const form = document.getElementById('contactForm');
