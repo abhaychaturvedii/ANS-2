@@ -283,23 +283,23 @@ const GAS_WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbxHNwNF_EfytFfO
       });
 
 
-      
-      // after: const res = await fetch(GAS_WEB_APP_URL, { ... });
-let ok = false;
-let data;
-try {
-  const txt = await res.text();
-  console.log('GAS response text:', txt);      // <— see exact error
-  data = JSON.parse(txt);
-  ok = data && data.ok;
-} catch (e) {
-  console.warn('Parse failed, status:', res.status);
-  ok = res.ok;
-}
-if (!ok) {
-  setStatus(data?.error || 'Submission failed', 'error');
-  return;
-}
+
+//       // after: const res = await fetch(GAS_WEB_APP_URL, { ... });
+// let ok = false;
+// let data;
+// try {
+//   const txt = await res.text();
+//   console.log('GAS response text:', txt);      // <— see exact error
+//   data = JSON.parse(txt);
+//   ok = data && data.ok;
+// } catch (e) {
+//   console.warn('Parse failed, status:', res.status);
+//   ok = res.ok;
+// }
+// if (!ok) {
+//   setStatus(data?.error || 'Submission failed', 'error');
+//   return;
+// }
 
 
 
