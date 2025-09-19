@@ -23,16 +23,16 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     });
 });
 
-// Header background change on scroll
+// Header background change on scroll - UPDATED FOR DARK THEME
 window.addEventListener('scroll', function() {
     const header = document.querySelector('.header');
     const scrollTop = window.pageYOffset;
     
     if (scrollTop > 100) {
-        header.style.background = 'rgba(102, 126, 234, 0.95)';
+        header.style.background = 'rgba(42, 42, 42, 0.95)'; // Dark gray with transparency
         header.style.backdropFilter = 'blur(20px)';
     } else {
-        header.style.background = 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)';
+        header.style.background = '#2a2a2a'; // Solid dark gray
         header.style.backdropFilter = 'blur(10px)';
     }
     
@@ -198,17 +198,17 @@ document.querySelectorAll('.service-card').forEach(card => {
 
 // Form validation
 document.getElementById('name').addEventListener('input', function() {
-    this.style.borderColor = this.value.length >= 2 ? '#667eea' : '#e53e3e';
+    this.style.borderColor = this.value.length >= 2 ? '#ff7f50' : '#e53e3e';
 });
 
 document.getElementById('email').addEventListener('input', function() {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    this.style.borderColor = emailRegex.test(this.value) ? '#667eea' : '#e53e3e';
+    this.style.borderColor = emailRegex.test(this.value) ? '#ff7f50' : '#e53e3e';
 });
 
 document.getElementById('phone').addEventListener('input', function() {
     const phoneRegex = /^[+]?[\d\s-()]{10,}$/;
-    this.style.borderColor = phoneRegex.test(this.value) ? '#667eea' : '#e53e3e';
+    this.style.borderColor = phoneRegex.test(this.value) ? '#ff7f50' : '#e53e3e';
 });
 
 // Add loading animation
@@ -234,8 +234,6 @@ document.addEventListener('DOMContentLoaded', function() {
     console.log('ANS Hirings website loaded successfully!');
 });
 
-
-// ===== Contact Form -> Google Sheets + Email (via Apps Script) =====
 // ===== Contact Form -> Google Sheets + Email (via Apps Script) =====
 const GAS_WEB_APP_URL =
   'https://script.google.com/macros/s/AKfycbx_10KSWvl7jvX8-ENpeXebGXYvBcF6HLSrs-5squpDAm5vJ05Z9GCWZfY3Lftwft4eUg/exec';
@@ -314,7 +312,7 @@ const GAS_WEB_APP_URL =
 
       const res = await fetch(GAS_WEB_APP_URL, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },  // works with your deployment
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload),
       });
 
@@ -358,3 +356,10 @@ const GAS_WEB_APP_URL =
     if (type) statusEl.classList.add(type);
   }
 })();
+
+// Dark/Light mode toggle
+document.getElementById('themeToggle').addEventListener('click', () => {
+  document.body.classList.toggle('dark-mode');
+  const btn = document.getElementById('themeToggle');
+  btn.textContent = document.body.classList.contains('dark-mode') ? '☀️' : '🌙';
+});
