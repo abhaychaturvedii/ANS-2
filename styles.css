@@ -665,6 +665,7 @@ body {
     .hero {
         padding: 100px 0 60px;
         min-height: 80vh;
+        /* background: #cde60b; */
     }
 
     .hero h1 {
