@@ -232,7 +232,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
 // ===== Contact Form -> Google Sheets (Email + Message only) =====
-const GAS_WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbxeG8zEE8dRQmOV87sD3iIdc5O050xNHNz9EPkwqThJJSTbG75C3kgtdwtmJp6UDWrtVg/exec'; // <-- paste your Apps Script Web App URL
+const GAS_WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbxSIIV1BB_cqRP-jfVs0nNmcurSkfQB5qqiV9KztONSMQp0cKsPlvCDBqzFDVywZLJ8VQ/exec'; // <-- paste your Apps Script Web App URL
 
 (function initContactForm() {
   const form = document.getElementById('contactForm');
