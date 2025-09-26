@@ -234,9 +234,10 @@ document.addEventListener('DOMContentLoaded', function() {
     console.log('ANS Hirings website loaded successfully!');
 });
 
-// ===== Contact Form -> Google Sheets + Email (via Apps Script) =====
-const GAS_WEB_APP_URL =
-  'https://script.google.com/macros/s/AKfycbx_10KSWvl7jvX8-ENpeXebGXYvBcF6HLSrs-5squpDAm5vJ05Z9GCWZfY3Lftwft4eUg/exec';
+
+
+// ===== Contact Form -> Google Sheets (Email + Message only) =====
+const GAS_WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbytngFIKylfsxoPyuuMQzSIS5Wapweli5jPdLJJ-1t2pS3dkaJrG7ThPM-HqaGWm0jRAg/exec'; // <-- paste your Apps Script Web App URL
 
 (function initContactForm() {
   const form = document.getElementById('contactForm');
@@ -245,36 +246,28 @@ const GAS_WEB_APP_URL =
   const statusEl  = document.getElementById('formStatus');
   const submitBtn = document.getElementById('submitBtn');
 
-  // --- helpers ---
-  const $  = (id) => document.getElementById(id);
-  const err = (id) => form.querySelector(`.error[data-for="${id}"]`);
-
-  const emailOk  = (v) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v);
-  const phoneOk  = (v) => {
-    const digits = (v || '').replace(/\D/g, '');
-    return digits.length >= 10 && digits.length <= 15;
-  };
+  // helpers
+  const $ = (id) => document.getElementById(id);
+  const emailOk = (v) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v);
 
   function setFieldState(input, valid, msg = '') {
     input.classList.toggle('invalid', !valid);
     input.classList.toggle('valid',   valid);
-    const e = err(input.id);
+    const e = form.querySelector(`.error[data-for="${input.id}"]`);
     if (e) e.textContent = msg;
   }
 
-  // live validation
-  ['name','email','phone','subject','message'].forEach(id => {
+  // live validation for email + message only
+  ['email','message'].forEach(id => {
     const el = $(id);
     if (!el) return;
     el.addEventListener('input', () => {
       const v = el.value.trim();
-      if (id === 'email')  setFieldState(el, emailOk(v),  emailOk(v)  ? '' : 'Enter a valid email.');
-      else if (id === 'phone') setFieldState(el, phoneOk(v), phoneOk(v) ? '' : 'Enter 10–15 digits.');
-      else setFieldState(el, v.length >= 2);
+      if (id === 'email') setFieldState(el, emailOk(v), emailOk(v) ? '' : 'Enter a valid email.');
+      else setFieldState(el, v.length >= 2, v.length >= 2 ? '' : 'Please write a message.');
     });
   });
 
-  // submit
   form.addEventListener('submit', async (e) => {
     e.preventDefault();
 
@@ -282,18 +275,12 @@ const GAS_WEB_APP_URL =
     const hp = form.querySelector('#company');
     if (hp && hp.value.trim() !== '') return;
 
-    const name    = form.name.value.trim();
     const email   = form.email.value.trim();
-    const phone   = form.phone.value.trim();
-    const subject = form.subject.value.trim();
     const message = form.message.value.trim();
 
     // gate keepers
     const checks = [
-      [ $('name'),    name.length >= 2,     'Please enter your name.' ],
       [ $('email'),   emailOk(email),       'Enter a valid email.' ],
-      [ $('phone'),   phoneOk(phone),       'Enter 10–15 digits.' ],
-      [ $('subject'), subject.length >= 2,  'Please add a subject.' ],
       [ $('message'), message.length >= 2,  'Please write a message.' ],
     ];
 
@@ -308,7 +295,7 @@ const GAS_WEB_APP_URL =
     setStatus('Sending…', null);
 
     try {
-      const payload = { name, email, phone, subject, message, sourcePage: location.href };
+      const payload = { email, message, sourcePage: location.href };
 
       const res = await fetch(GAS_WEB_APP_URL, {
         method: 'POST',
@@ -316,7 +303,6 @@ const GAS_WEB_APP_URL =
         body: JSON.stringify(payload),
       });
 
-      // Try text -> JSON parse (covers hosts that return text)
       let ok = false, data = null;
       try {
         const txt = await res.text();
@@ -330,8 +316,10 @@ const GAS_WEB_APP_URL =
       if (ok) {
         setStatus('Thank you! Your message has been sent.', 'success');
         form.reset();
-        ['name','email','phone','subject','message'].forEach(id => {
-          const el = $(id); el.classList.remove('valid','invalid'); err(id).textContent = '';
+        ['email','message'].forEach(id => {
+          const el = $(id); el.classList.remove('valid','invalid');
+          const errEl = form.querySelector(`.error[data-for="${id}"]`);
+          if (errEl) errEl.textContent = '';
         });
       } else {
         setStatus(data?.error || 'Submission failed. Please try again.', 'error');
@@ -349,6 +337,7 @@ const GAS_WEB_APP_URL =
     submitBtn.disabled = isLoading;
     submitBtn.textContent = isLoading ? 'Sending…' : 'Send Message';
   }
+
   function setStatus(msg, type) {
     if (!statusEl) return;
     statusEl.textContent = msg || '';
@@ -356,6 +345,7 @@ const GAS_WEB_APP_URL =
     if (type) statusEl.classList.add(type);
   }
 })();
+
 
 // Dark/Light mode toggle
 document.getElementById('themeToggle').addEventListener('click', () => {
