@@ -197,19 +197,14 @@ document.querySelectorAll('.service-card').forEach(card => {
 });
 
 // Form validation
-document.getElementById('name').addEventListener('input', function() {
-    this.style.borderColor = this.value.length >= 2 ? '#ff7f50' : '#e53e3e';
-});
+
 
 document.getElementById('email').addEventListener('input', function() {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     this.style.borderColor = emailRegex.test(this.value) ? '#ff7f50' : '#e53e3e';
 });
 
-document.getElementById('phone').addEventListener('input', function() {
-    const phoneRegex = /^[+]?[\d\s-()]{10,}$/;
-    this.style.borderColor = phoneRegex.test(this.value) ? '#ff7f50' : '#e53e3e';
-});
+
 
 // Add loading animation
 window.addEventListener('load', function() {
