@@ -290,13 +290,13 @@ const GAS_WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbytngFIKylfsxoP
     setStatus('Sending…', null);
 
     try {
-      const payload = { email, message, sourcePage: location.href };
+   const payload = { email, message, sourcePage: location.href };
 
-      const res = await fetch(GAS_WEB_APP_URL, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload),
-      });
+const res = await fetch(GAS_WEB_APP_URL, {
+  method: 'POST',
+  headers: { 'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8' },
+  body: new URLSearchParams({ payload: JSON.stringify(payload) }).toString()
+});
 
       let ok = false, data = null;
       try {
