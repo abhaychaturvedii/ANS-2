@@ -292,6 +292,12 @@ const GAS_WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbxSIIV1BB_cqRP-
     try {
    const payload = { email, message, sourcePage: location.href };
 
+   console.log('Sending payload:', { 
+  email: document.getElementById('email').value.trim(),
+  message: document.getElementById('message').value.trim(),
+  sourcePage: location.href
+});
+
 // BEFORE (sending payload=JSON)  ❌
 // body: new URLSearchParams({ payload: JSON.stringify(payload) }).toString()
 
