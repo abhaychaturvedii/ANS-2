@@ -15,14 +15,14 @@ body {
     font-family: 'Inter', sans-serif;
     line-height: 1.6;
     background-color: #1a1a1a;
-    color: #ff7f50;
+    color: #FFAC1C;
     overflow-x: hidden;
 }
 
 /* Header - Dark theme */
 .header {
     background: #2a2a2a;
-    color: #ff7f50;
+    color: #FFAC1C;
     padding: 1rem 0;
     position: fixed;
     width: 100%;
@@ -59,7 +59,7 @@ body {
 .logo-text {
     font-size: 1.2rem;
     font-weight: 700;
-    color: #ff7f50;
+    color: #FFAC1C;
 }
 
 .nav-links {
@@ -69,7 +69,7 @@ body {
 }
 
 .nav-links a {
-    color: #ff7f50;
+    color: #FFAC1C;
     text-decoration: none;
     font-weight: 500;
     transition: all 0.3s ease;
@@ -88,7 +88,7 @@ body {
     height: 2px;
     bottom: -5px;
     left: 50%;
-    background: #ff7f50;
+    background: #FFAC1C;
     transition: all 0.3s ease;
     transform: translateX(-50%);
 }
@@ -101,7 +101,7 @@ body {
     display: none;
     background: none;
     border: none;
-    color: #ff7f50;
+    color: #FFAC1C;
     font-size: 1.5rem;
     cursor: pointer;
 }
@@ -109,7 +109,7 @@ body {
 /* Hero Section - Dark theme */
 .hero {
     background: linear-gradient(135deg, #2a2a2a 0%, #1a1a1a 100%);
-    color: #ff7f50;
+    color: #FFAC1C;
     padding: 120px 0 80px;
     text-align: center;
     position: relative;
@@ -127,7 +127,7 @@ body {
     left: 0;
     right: 0;
     bottom: 0;
-    background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="2" fill="%23ff7f50" opacity="0.1"/></svg>') repeat;
+    background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="2" fill="%23FFAC1C" opacity="0.1"/></svg>') repeat;
     background-size: 50px 50px;
     animation: float 20s infinite linear;
 }
@@ -151,7 +151,7 @@ body {
     font-size: 3.5rem;
     font-weight: 700;
     margin-bottom: 1.5rem;
-    color: #ff7f50;
+    color: #FFAC1C;
     animation: slideUp 1s ease-out;
 }
 
@@ -190,14 +190,14 @@ body {
 }
 
 .btn-primary {
-    background: #ff7f50;
+    background: #FFAC1C;
     color: #1a1a1a;
 }
 
 .btn-secondary {
     background: transparent;
-    color: #ff7f50;
-    border: 2px solid #ff7f50;
+    color: #FFAC1C;
+    border: 2px solid #FFAC1C;
 }
 
 .btn:hover {
@@ -210,7 +210,7 @@ body {
 }
 
 .btn-secondary:hover {
-    background: #ff7f50;
+    background: #FFAC1C;
     color: #1a1a1a;
 }
 
@@ -246,7 +246,7 @@ body {
     margin-bottom: 3rem;
     position: relative;
     max-width: 100%;
-    color: #ff7f50;
+    color: #FFAC1C;
 }
 
 .section-title::after {
@@ -254,7 +254,7 @@ body {
     position: absolute;
     width: 80px;
     height: 4px;
-    background: #ff7f50;
+    background: #FFAC1C;
     bottom: -15px;
     left: 50%;
     transform: translateX(-50%);
@@ -283,7 +283,7 @@ body {
 }
 
 .about-text h3 {
-    color: #ff7f50;
+    color: #FFAC1C;
     font-size: 1.5rem;
     margin-bottom: 1rem;
 }
@@ -307,13 +307,13 @@ body {
 
 .stat:hover {
     transform: translateY(-5px);
-    border-color: #ff7f50;
+    border-color: #FFAC1C;
 }
 
 .stat-number {
     font-size: 2.5rem;
     font-weight: 700;
-    color: #ff7f50;
+    color: #FFAC1C;
     display: block;
 }
 
@@ -350,19 +350,19 @@ body {
     left: 0;
     width: 100%;
     height: 4px;
-    background: #ff7f50;
+    background: #FFAC1C;
 }
 
 .service-card:hover {
     transform: translateY(-10px);
     box-shadow: 0 20px 60px rgba(255,127,80,0.15);
-    border-color: #ff7f50;
+    border-color: #FFAC1C;
 }
 
 .service-icon {
     width: 60px;
     height: 60px;
-    background: #ff7f50;
+    background: #FFAC1C;
     border-radius: 15px;
     display: flex;
     align-items: center;
@@ -375,7 +375,7 @@ body {
 .service-card h3 {
     font-size: 1.3rem;
     margin-bottom: 1rem;
-    color: #ff7f50;
+    color: #FFAC1C;
 }
 
 .service-card p {
@@ -386,7 +386,7 @@ body {
 /* Why Choose Us */
 .why-choose {
     background: #1a1a1a;
-    color: #ff7f50;
+    color: #FFAC1C;
 }
 
 .features-grid {
@@ -412,15 +412,15 @@ body {
     justify-content: center;
     margin: 0 auto 1.5rem;
     font-size: 2rem;
-    color: #ff7f50;
+    color: #FFAC1C;
     backdrop-filter: blur(10px);
-    border: 1px solid #ff7f50;
+    border: 1px solid #FFAC1C;
 }
 
 .feature h3 {
     font-size: 1.3rem;
     margin-bottom: 1rem;
-    color: #ff7f50;
+    color: #FFAC1C;
 }
 
 .feature p {
@@ -455,7 +455,7 @@ body {
     top: -10px;
     left: 20px;
     font-size: 4rem;
-    color: #ff7f50;
+    color: #FFAC1C;
     font-family: serif;
 }
 
@@ -475,7 +475,7 @@ body {
 .author-avatar {
     width: 50px;
     height: 50px;
-    background: #ff7f50;
+    background: #FFAC1C;
     border-radius: 50%;
     display: flex;
     align-items: center;
@@ -486,7 +486,7 @@ body {
 
 .author-info h4 {
     margin: 0;
-    color: #ff7f50;
+    color: #FFAC1C;
 }
 
 .author-info span {
@@ -497,7 +497,7 @@ body {
 /* Contact Section */
 .contact {
     background: #1a1a1a;
-    color: #ff7f50;
+    color: #FFAC1C;
 }
 
 .contact-content {
@@ -516,7 +516,7 @@ body {
 
 .contact-info h3 {
     margin-bottom: 1.5rem;
-    color: #ff7f50;
+    color: #FFAC1C;
 }
 
 .contact-info p {
@@ -534,7 +534,7 @@ body {
 .contact-icon {
     width: 40px;
     height: 40px;
-    background: #ff7f50;
+    background: #FFAC1C;
     border-radius: 10px;
     display: flex;
     align-items: center;
@@ -563,7 +563,7 @@ body {
     margin: 0 0 0.4rem;
     font-weight: 600;
     font-size: 0.95rem;
-    color: #ff7f50;
+    color: #FFAC1C;
     display: block;
 }
 
@@ -573,7 +573,7 @@ body {
     border: 1.5px solid #444;
     border-radius: 12px;
     background: #2a2a2a;
-    color: #ff7f50;
+    color: #FFAC1C;
     outline: none;
     transition: border 0.2s, box-shadow 0.2s;
 }
@@ -585,7 +585,7 @@ body {
 
 .contact input:focus,
 .contact textarea:focus {
-    border-color: #ff7f50;
+    border-color: #FFAC1C;
     box-shadow: 0 0 0 3px rgba(255,127,80,0.15);
 }
 
@@ -608,7 +608,7 @@ body {
 
 .contact input.valid, 
 .contact textarea.valid { 
-    border-color: #ff7f50; 
+    border-color: #FFAC1C; 
 }
 
 .contact .hp { 
@@ -628,7 +628,7 @@ body {
 }
 
 .btn-primary {
-    background: #ff7f50;
+    background: #FFAC1C;
     border: none;
     color: #1a1a1a;
     padding: 0.9rem 1.5rem;
@@ -653,7 +653,7 @@ body {
 }
 
 .form-status.success { 
-    color: #ff7f50; 
+    color: #FFAC1C; 
 }
 
 .form-status.error { 
@@ -681,16 +681,16 @@ body {
     height: 120px;
     border-radius: 50%;
     margin-bottom: 1rem;
-    border: 2px solid #ff7f50;
+    border: 2px solid #FFAC1C;
 }
 
 .team-card:hover {
-    border-color: #ff7f50;
+    border-color: #FFAC1C;
     background: #3a3a3a;
 }
 
 .team-card h3 {
-    color: #ff7f50;
+    color: #FFAC1C;
     margin-bottom: 0.5rem;
 }
 
@@ -700,7 +700,7 @@ body {
 }
 
 .linkedin-link {
-    color: #ff7f50;
+    color: #FFAC1C;
     text-decoration: none;
     font-weight: 600;
     transition: color 0.3s ease;
@@ -719,7 +719,7 @@ body {
 
 .social-icons a {
     font-size: 1.2rem;
-    color: #ff7f50;
+    color: #FFAC1C;
     text-decoration: none;
     transition: color 0.3s;
 }
@@ -731,7 +731,7 @@ body {
 /* Footer */
 .footer {
     background: #0f0f0f;
-    color: #ff7f50;
+    color: #FFAC1C;
     text-align: center;
     padding: 3rem 0 2rem;
     border-top: 1px solid #333;
@@ -750,7 +750,7 @@ body {
 
 .footer-section h3 {
     margin-bottom: 1rem;
-    color: #ff7f50;
+    color: #FFAC1C;
 }
 
 .footer-section ul {
@@ -768,7 +768,7 @@ body {
 }
 
 .footer-section ul li a:hover {
-    color: #ff7f50;
+    color: #FFAC1C;
 }
 
 .footer-section p {
@@ -788,7 +788,7 @@ body {
     right: 2rem;
     width: 50px;
     height: 50px;
-    background: #ff7f50;
+    background: #FFAC1C;
     border: none;
     border-radius: 50%;
     color: #1a1a1a;
@@ -813,16 +813,16 @@ body {
 .theme-toggle {
     margin-left: 1rem;
     background: none;
-    border: 2px solid #ff7f50;
+    border: 2px solid #FFAC1C;
     border-radius: 50%;
-    color: #ff7f50;
+    color: #FFAC1C;
     padding: 6px 10px;
     cursor: pointer;
     transition: all 0.3s ease;
 }
 
 .theme-toggle:hover {
-    background: #ff7f50;
+    background: #FFAC1C;
     color: #1a1a1a;
 }
 
