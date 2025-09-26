@@ -342,9 +342,3 @@ const GAS_WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbytngFIKylfsxoP
 })();
 
 
-// Dark/Light mode toggle
-document.getElementById('themeToggle').addEventListener('click', () => {
-  document.body.classList.toggle('dark-mode');
-  const btn = document.getElementById('themeToggle');
-  btn.textContent = document.body.classList.contains('dark-mode') ? '☀️' : '🌙';
-});
