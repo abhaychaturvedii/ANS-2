@@ -810,22 +810,27 @@ https://plus.unsplash.com/premium_photo-1661767467261-4a4bed92a507?q=80&w=1170&a
 }
 
 /* Social icons */
+/* Social icons */
 .social-icons {
     display: flex;
     justify-content: center;
     gap: 2rem;
+    margin-top: 2rem;
 }
 
 .social-icons a {
-    font-size: 1.2rem;
+    font-size: 2rem;
     color: #FFAC1C;
     text-decoration: none;
-    transition: color 0.3s;
+    transition: color 0.3s, transform 0.3s;
 }
 
 .social-icons a:hover {
     color: #ffa64d;
+    transform: translateY(-4px);
 }
+
+
 
 /* Footer */
 .footer {
