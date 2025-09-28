@@ -249,13 +249,14 @@ body {
     width: 100%;
 }
 
-/* Sections */
+/* Sections Our Comprehensive Services */
 .section {
     padding: 100px 0;
     position: relative;
      background: #2a2a2a;
     position: relative;
-    background-image: url('https://images.unsplash.com/photo-1674027444485-cec3da58eef4?q=80&w=1932&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D');
+    background-image: url('https://images.unsplash.com/photo-1493612276216-ee3925520721?q=80&w=764&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D');
+    /* ('https://images.unsplash.com/photo-1674027444485-cec3da58eef4?q=80&w=1932&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'); */
     background-size: cover;
     background-position: center;
     background-attachment: fixed;
@@ -322,7 +323,6 @@ body {
 }
 
 
-/* url('https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=1920') */
 .about-content {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -503,7 +503,7 @@ body {
     color: #cccccc;
 }
 
-/* Testimonials */
+/* Testimonials succees stories  */
 .testimonials {
     background: #2a2a2a;
      position: relative;
@@ -741,7 +741,7 @@ body {
     color: #ff6b6b; 
 }
 
-/* Team section */
+/* Team section ceo and md */
 .team {
     background: #2a2a2a;
     position: relative;
@@ -750,8 +750,6 @@ body {
     background-position: center;
     background-attachment: fixed;
 }
-/* 
-https://plus.unsplash.com/premium_photo-1661767467261-4a4bed92a507?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D */
 
 .team::before {
   content: "";
@@ -835,9 +833,7 @@ https://plus.unsplash.com/premium_photo-1661767467261-4a4bed92a507?q=80&w=1170&a
   position: relative;         /* creates its own stacking context */
   isolation: isolate;         /* prevents earlier ::before layers from sitting above */
   background-color: #0f0f0f;  /* solid dark background for that band */
-  /* or use a gradient if you prefer:
-  background: linear-gradient(180deg, #101010, #0f0f0f);
-  */
+  
 }
 
 /* If you have any global overlay like .section::before, cancel it here */
@@ -855,7 +851,7 @@ https://plus.unsplash.com/premium_photo-1661767467261-4a4bed92a507?q=80&w=1170&a
   isolation: isolate;
   background:
     linear-gradient(rgba(0,0,0,.7), rgba(0,0,0,.7)),
-    url('https://images.unsplash.com/photo-1683721003111-070bcc053d8b?q=80&w=2000&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D') center/cover no-repeat;
+    center/cover no-repeat;
      background-blend-mode: darken; 
   padding: 80px 20px;
 }
