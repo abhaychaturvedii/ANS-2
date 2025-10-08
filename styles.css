@@ -1036,3 +1036,78 @@ body {
         grid-template-columns: 1fr; 
     }
 }
+
+/* === Team Carousel === */
+.team-carousel {
+  position: relative;
+  width: 100%;
+  margin-inline: auto;
+  max-width: 1200px;
+}
+
+.tc-viewport {
+  overflow: hidden;
+  width: 100%;
+}
+
+.tc-track {
+  list-style: none;
+  display: flex;
+  gap: 2rem;
+  padding: 0;
+  margin: 0;
+  will-change: transform;
+  transition: transform 420ms ease;
+}
+
+/* Make cards behave as slides */
+.tc-track .team-card {
+  flex: 0 0 calc(25% - 1.5rem); /* desktop: 4 visible */
+  text-align: center;
+  padding: 1.5rem;
+  background: #2a2a2a;
+  border: 2px solid #444;
+  border-radius: 12px;
+  transition: border-color .3s, background .3s, transform .3s;
+}
+.tc-track .team-card:hover { border-color:#FFAC1C; background:#3a3a3a; transform: translateY(-4px); }
+
+.tc-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: 1px solid #444;
+  background: rgba(0,0,0,.55);
+  color: #FFAC1C;
+  cursor: pointer;
+  z-index: 3;
+}
+.tc-prev { left: -6px; }
+.tc-next { right: -6px; }
+.tc-btn:hover { background: rgba(0,0,0,.8); border-color:#FFAC1C; }
+
+.tc-dots {
+  display: flex;
+  justify-content: center;
+  gap: .5rem;
+  margin-top: 1rem;
+}
+.tc-dots button {
+  width: 8px; height: 8px; border-radius: 50%;
+  border: 0; outline: 0; cursor: pointer;
+  background: #444;
+}
+.tc-dots button[aria-current="true"] { background: #FFAC1C; }
+
+/* Responsive visibles: tablet 2, mobile 1 */
+@media (max-width: 1024px) {
+  .tc-track .team-card { flex-basis: calc(50% - 1rem); }
+}
+@media (max-width: 640px) {
+  .tc-track .team-card { flex-basis: 100%; }
+  .tc-prev { left: 4px; }
+  .tc-next { right: 4px; }
+}

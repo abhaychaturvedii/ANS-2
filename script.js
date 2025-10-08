@@ -357,3 +357,160 @@ const res = await fetch(GAS_WEB_APP_URL, {
 })();
 
 
+
+
+// ===== Team Carousel (INFINITE LOOP) =====
+(function initTeamCarousel(){
+  const root = document.querySelector('.team-carousel');
+  if (!root) return;
+
+  const track    = root.querySelector('.tc-track');
+  const prevBtn  = root.querySelector('.tc-prev');
+  const nextBtn  = root.querySelector('.tc-next');
+  const dotsWrap = root.querySelector('.tc-dots');
+  const autoplay = root.dataset.autoplay === 'true';
+  const interval = parseInt(root.dataset.interval || '3500', 10);
+
+  let baseSlides = Array.from(track.children);   // REAL slides (no clones)
+  let index = 0;          // position in the augmented (cloned) list
+  let visible = 4;        // how many are visible (desktop default)
+  let timer = null;
+  let isTransitioning = false;
+
+  const visibleCount = () => {
+    if (window.matchMedia('(max-width: 640px)').matches) return 1;
+    if (window.matchMedia('(max-width: 1024px)').matches) return 2;
+    return 4;
+  };
+
+  // Build clones at head & tail for seamless loop
+  function rebuild() {
+    // 1) clear any previous clones
+    track.innerHTML = '';
+    baseSlides.forEach(s => s.style.flexBasis = ''); // reset
+    visible = visibleCount();
+
+    // 2) set slide basis according to visible count
+    baseSlides.forEach(s => (s.style.flexBasis = (100/visible) + '%'));
+
+    // 3) make clones
+    const headClones = baseSlides.slice(-visible).map(cloneSlide);
+    const tailClones = baseSlides.slice(0, visible).map(cloneSlide);
+
+    // 4) assemble: headClones + real + tailClones
+    headClones.forEach(c => track.appendChild(c));
+    baseSlides.forEach(s => track.appendChild(s));
+    tailClones.forEach(c => track.appendChild(c));
+
+    // 5) start index at the first REAL slide (offset = visible)
+    index = visible;
+
+    // 6) build dots (one per real slide)
+    buildDots();
+
+    // 7) jump to start position without animation
+    disableTransition();
+    updateTransform();
+    // allow transition again
+    requestAnimationFrame(enableTransition);
+  }
+
+  function cloneSlide(node){
+    const c = node.cloneNode(true);
+    c.setAttribute('aria-hidden','true');
+    return c;
+  }
+
+  function buildDots(){
+    dotsWrap.innerHTML = '';
+    for (let i = 0; i < baseSlides.length; i++){
+      const b = document.createElement('button');
+      b.type = 'button';
+      b.setAttribute('aria-label', `Go to card ${i+1}`);
+      b.addEventListener('click', () => goToRealIndex(i));
+      dotsWrap.appendChild(b);
+    }
+    setDotActive(realIndex());
+  }
+
+  function realIndex(){
+    // Map augmented index to [0..baseSlides.length-1]
+    const n = baseSlides.length;
+    return (index - visible + n) % n;
+  }
+
+  function setDotActive(i){
+    dotsWrap.querySelectorAll('button').forEach((b, j) =>
+      b.setAttribute('aria-current', j === i ? 'true' : 'false')
+    );
+  }
+
+  function updateTransform(){
+    const pct = -(index * (100 / visible));
+    track.style.transform = `translateX(${pct}%)`;
+    setDotActive(realIndex());
+  }
+
+  function disableTransition(){ track.style.transition = 'none'; }
+  function enableTransition(){ track.style.transition = 'transform 420ms ease'; }
+
+  function next(step=1){
+    if (isTransitioning) return;
+    isTransitioning = true;
+    index += step;
+    updateTransform();
+  }
+  function prev(step=1){
+    if (isTransitioning) return;
+    isTransitioning = true;
+    index -= step;
+    updateTransform();
+  }
+
+  // When the animated slide ends, snap if we’re on a clone range
+  track.addEventListener('transitionend', () => {
+    const n = baseSlides.length;
+    if (index >= n + visible) {
+      // Moved into tail clones → snap back to the first real
+      disableTransition();
+      index = visible;
+      updateTransform();
+      requestAnimationFrame(enableTransition);
+    } else if (index < visible) {
+      // Moved into head clones → snap to last real
+      disableTransition();
+      index = n + visible - 1;
+      updateTransform();
+      requestAnimationFrame(enableTransition);
+    }
+    isTransitioning = false;
+  });
+
+  // Dots jump directly to a real slide
+  function goToRealIndex(i){
+    index = i + visible;
+    updateTransform();
+  }
+
+  // Controls
+  nextBtn.addEventListener('click', () => next(1));
+  prevBtn.addEventListener('click', () => prev(1));
+
+  // Autoplay (pause on hover/hidden tab)
+  function start(){ if (autoplay && !timer) timer = setInterval(()=>next(1), interval); }
+  function stop(){ if (timer){ clearInterval(timer); timer=null; } }
+  root.addEventListener('mouseenter', stop);
+  root.addEventListener('mouseleave', start);
+  window.addEventListener('visibilitychange', () => document.hidden ? stop() : start());
+
+  // Rebuild on resize (handles visible count changes)
+  let rAF = null;
+  window.addEventListener('resize', () => {
+    if (rAF) cancelAnimationFrame(rAF);
+    rAF = requestAnimationFrame(rebuild);
+  });
+
+  // Init
+  rebuild();
+  start();
+})();
