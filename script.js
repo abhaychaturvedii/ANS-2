@@ -243,7 +243,11 @@ const GAS_WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbxSIIV1BB_cqRP-
   // helpers
   const $       = (id) => document.getElementById(id);
   const emailOk = (v) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v);
-  const phoneOk = (v) => /^[0-9+\-\s()]{7,15}$/.test(v);  // simple phone pattern
+  const phoneOk = (v) => {
+  const digits = v.replace(/\D/g, '');   // keep only 0–9
+  return digits.length >= 10 && digits.length <= 13;  // 10–13 digits allowed
+};
+
 
   function setFieldState(input, valid, msg = '') {
     input.classList.toggle('invalid', !valid);
