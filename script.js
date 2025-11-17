@@ -230,9 +230,8 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 
-
-// ===== Contact Form -> Google Sheets (Email + Message only) =====
-const GAS_WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbxSIIV1BB_cqRP-jfVs0nNmcurSkfQB5qqiV9KztONSMQp0cKsPlvCDBqzFDVywZLJ8VQ/exec'; // <-- paste your Apps Script Web App URL
+// ===== Contact Form -> Google Sheets (Email + Phone + Message) =====
+const GAS_WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbxSIIV1BB_cqRP-jfVs0nNmcurSkfQB5qqiV9KztONSMQp0cKsPlvCDBqzFDVywZLJ8VQ/exec';
 
 (function initContactForm() {
   const form = document.getElementById('contactForm');
@@ -242,8 +241,7 @@ const GAS_WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbxSIIV1BB_cqRP-
   const submitBtn = document.getElementById('submitBtn');
 
   // helpers
-  // helpers
-  const $ = (id) => document.getElementById(id);
+  const $       = (id) => document.getElementById(id);
   const emailOk = (v) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v);
   const phoneOk = (v) => /^[0-9+\-\s()]{7,15}$/.test(v);  // simple phone pattern
 
@@ -256,10 +254,9 @@ const GAS_WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbxSIIV1BB_cqRP-
 
   // live validation for email + phone + message
   ['email','phone','message'].forEach(id => {
- {
     const el = $(id);
     if (!el) return;
-        el.addEventListener('input', () => {
+    el.addEventListener('input', () => {
       const v = el.value.trim();
       if (id === 'email') {
         setFieldState(el, emailOk(v), emailOk(v) ? '' : 'Enter a valid email.');
@@ -269,7 +266,6 @@ const GAS_WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbxSIIV1BB_cqRP-
         setFieldState(el, v.length >= 2, v.length >= 2 ? '' : 'Please write a message.');
       }
     });
-
   });
 
   form.addEventListener('submit', async (e) => {
@@ -279,9 +275,10 @@ const GAS_WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbxSIIV1BB_cqRP-
     const hp = form.querySelector('#company');
     if (hp && hp.value.trim() !== '') return;
 
-       const email   = form.email.value.trim();
+    const email   = form.email.value.trim();
     const phone   = form.phone.value.trim();
     const message = form.message.value.trim();
+    const sourcePage = window.location.href;   // full URL, including query if any
 
     // gate keepers
     const checks = [
@@ -289,7 +286,6 @@ const GAS_WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbxSIIV1BB_cqRP-
       [ $('phone'),   phoneOk(phone),       'Enter a valid phone number.' ],
       [ $('message'), message.length >= 2,  'Please write a message.' ],
     ];
-
 
     let firstInvalid = null;
     for (const [el, ok, msg] of checks) {
@@ -302,27 +298,18 @@ const GAS_WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbxSIIV1BB_cqRP-
     setStatus('Sending…', null);
 
     try {
-      const payload = { email, phone, message, sourcePage: location.href };
+      console.log('Sending payload:', { email, phone, message, sourcePage });
 
-   console.log('Sending payload:', { 
-     email: document.getElementById('email').value.trim(),
-     phone: document.getElementById('phone').value.trim(),
-     message: document.getElementById('message').value.trim(),
-     sourcePage: location.href
-   });
-
-   const res = await fetch(GAS_WEB_APP_URL, {
-     method: 'POST',
-     headers: { 'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8' },
-     body: new URLSearchParams({
-       email,
-       phone,
-       message,
-       sourcePage: location.href
-     }).toString()
-   });
-
-
+      const res = await fetch(GAS_WEB_APP_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8' },
+        body: new URLSearchParams({
+          email,
+          phone,
+          message,
+          sourcePage
+        }).toString()
+      });
 
       let ok = false, data = null;
       try {
@@ -335,11 +322,12 @@ const GAS_WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbxSIIV1BB_cqRP-
       }
 
       if (ok) {
-        setStatus('Thank you! Your message has been sent.', 'success');
-                form.reset();
+        setStatus('Thank you. Your message has been sent.', 'success');
+        form.reset();
         ['email','phone','message'].forEach(id => {
-
-          const el = $(id); el.classList.remove('valid','invalid');
+          const el = $(id);
+          if (!el) return;
+          el.classList.remove('valid','invalid');
           const errEl = form.querySelector(`.error[data-for="${id}"]`);
           if (errEl) errEl.textContent = '';
         });
@@ -367,6 +355,7 @@ const GAS_WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbxSIIV1BB_cqRP-
     if (type) statusEl.classList.add(type);
   }
 })();
+
 
 
 
