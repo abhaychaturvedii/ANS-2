@@ -242,8 +242,10 @@ const GAS_WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbxSIIV1BB_cqRP-
   const submitBtn = document.getElementById('submitBtn');
 
   // helpers
+  // helpers
   const $ = (id) => document.getElementById(id);
   const emailOk = (v) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v);
+  const phoneOk = (v) => /^[0-9+\-\s()]{7,15}$/.test(v);  // simple phone pattern
 
   function setFieldState(input, valid, msg = '') {
     input.classList.toggle('invalid', !valid);
@@ -252,15 +254,22 @@ const GAS_WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbxSIIV1BB_cqRP-
     if (e) e.textContent = msg;
   }
 
-  // live validation for email + message only
-  ['email','message'].forEach(id => {
+  // live validation for email + phone + message
+  ['email','phone','message'].forEach(id => {
+ {
     const el = $(id);
     if (!el) return;
-    el.addEventListener('input', () => {
+        el.addEventListener('input', () => {
       const v = el.value.trim();
-      if (id === 'email') setFieldState(el, emailOk(v), emailOk(v) ? '' : 'Enter a valid email.');
-      else setFieldState(el, v.length >= 2, v.length >= 2 ? '' : 'Please write a message.');
+      if (id === 'email') {
+        setFieldState(el, emailOk(v), emailOk(v) ? '' : 'Enter a valid email.');
+      } else if (id === 'phone') {
+        setFieldState(el, phoneOk(v), phoneOk(v) ? '' : 'Enter a valid phone number.');
+      } else {
+        setFieldState(el, v.length >= 2, v.length >= 2 ? '' : 'Please write a message.');
+      }
     });
+
   });
 
   form.addEventListener('submit', async (e) => {
@@ -270,14 +279,17 @@ const GAS_WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbxSIIV1BB_cqRP-
     const hp = form.querySelector('#company');
     if (hp && hp.value.trim() !== '') return;
 
-    const email   = form.email.value.trim();
+       const email   = form.email.value.trim();
+    const phone   = form.phone.value.trim();
     const message = form.message.value.trim();
 
     // gate keepers
     const checks = [
       [ $('email'),   emailOk(email),       'Enter a valid email.' ],
+      [ $('phone'),   phoneOk(phone),       'Enter a valid phone number.' ],
       [ $('message'), message.length >= 2,  'Please write a message.' ],
     ];
+
 
     let firstInvalid = null;
     for (const [el, ok, msg] of checks) {
@@ -290,27 +302,26 @@ const GAS_WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbxSIIV1BB_cqRP-
     setStatus('Sending…', null);
 
     try {
-   const payload = { email, message, sourcePage: location.href };
+      const payload = { email, phone, message, sourcePage: location.href };
 
    console.log('Sending payload:', { 
-  email: document.getElementById('email').value.trim(),
-  message: document.getElementById('message').value.trim(),
-  sourcePage: location.href
-});
+     email: document.getElementById('email').value.trim(),
+     phone: document.getElementById('phone').value.trim(),
+     message: document.getElementById('message').value.trim(),
+     sourcePage: location.href
+   });
 
-// BEFORE (sending payload=JSON)  ❌
-// body: new URLSearchParams({ payload: JSON.stringify(payload) }).toString()
+   const res = await fetch(GAS_WEB_APP_URL, {
+     method: 'POST',
+     headers: { 'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8' },
+     body: new URLSearchParams({
+       email,
+       phone,
+       message,
+       sourcePage: location.href
+     }).toString()
+   });
 
-// AFTER (send fields directly)  ✅
-const res = await fetch(GAS_WEB_APP_URL, {
-  method: 'POST',
-  headers: { 'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8' },
-  body: new URLSearchParams({
-    email,
-    message,
-    sourcePage: location.href
-  }).toString()
-});
 
 
       let ok = false, data = null;
@@ -325,8 +336,9 @@ const res = await fetch(GAS_WEB_APP_URL, {
 
       if (ok) {
         setStatus('Thank you! Your message has been sent.', 'success');
-        form.reset();
-        ['email','message'].forEach(id => {
+                form.reset();
+        ['email','phone','message'].forEach(id => {
+
           const el = $(id); el.classList.remove('valid','invalid');
           const errEl = form.querySelector(`.error[data-for="${id}"]`);
           if (errEl) errEl.textContent = '';

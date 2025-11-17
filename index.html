@@ -312,28 +312,43 @@
     <h2 class="section-title">Start Your Journey Today</h2>
 
     <form id="contactForm" novalidate>
-      <div class="form-grid">
-        <div class="field full">
-          <label for="email">Email Address *</label>
-          <input id="email" name="email" type="email" inputmode="email" autocomplete="email" required />
-          <small class="error" data-for="email"></small>
-        </div>
+  <div class="form-grid">
+    <div class="field full">
+      <label for="email">Email Address *</label>
+      <input id="email" name="email" type="email" inputmode="email" autocomplete="email" required />
+      <small class="error" data-for="email"></small>
+    </div>
 
-        <div class="field full">
-          <label for="message">Message *</label>
-          <textarea id="message" name="message" rows="6" required></textarea>
-          <small class="error" data-for="message"></small>
-        </div>
+    <div class="field full">
+      <label for="phone">Phone Number *</label>
+      <input
+        id="phone"
+        name="phone"
+        type="tel"
+        inputmode="tel"
+        autocomplete="tel"
+        required
+        placeholder="+91 90267 61146"
+      />
+      <small class="error" data-for="phone"></small>
+    </div>
 
-        <!-- Honeypot (hidden) to block bots -->
-        <input id="company" name="company" type="text" class="hp" autocomplete="off" tabindex="-1" />
+    <div class="field full">
+      <label for="message">Message *</label>
+      <textarea id="message" name="message" rows="6" required></textarea>
+      <small class="error" data-for="message"></small>
+    </div>
 
-        <div class="actions">
-          <button id="submitBtn" type="submit" class="btn-primary">Send Message</button>
-          <span id="formStatus" class="form-status" role="status" aria-live="polite"></span>
-        </div>
-      </div>
-    </form>
+    <!-- Honeypot (hidden) to block bots -->
+    <input id="company" name="company" type="text" class="hp" autocomplete="off" tabindex="-1" />
+
+    <div class="actions">
+      <button id="submitBtn" type="submit" class="btn-primary">Send Message</button>
+      <span id="formStatus" class="form-status" role="status" aria-live="polite"></span>
+    </div>
+  </div>
+</form>
+
   </div>
 </section>
 
